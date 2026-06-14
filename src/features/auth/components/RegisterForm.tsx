@@ -1,31 +1,78 @@
 "use client";
 
+import { useForm } from "react-hook-form";
+
 import {
+  ErrorForm,
   Form,
   FormInput,
   FormLabel,
   FormSubmit,
 } from "@/src/shared/components/forms";
+import { LoginInput, LoginSchema } from "../schemas/authSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function RegisterForm() {
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginInput>({
+    resolver: zodResolver(LoginSchema),
+    mode: "onBlur", // distintos modos
+  });
+
+  const handleRegister = (data: LoginInput) => {
+    console.log(data);
+    reset();
+  };
+
   return (
-    <Form>
+    <Form onSubmit={handleSubmit(handleRegister)}>
       <FormLabel htmlFor="name">Nombre</FormLabel>
-      <FormInput id="name" placeholder="Ingresa tu nombre" type="text" />
+      <FormInput
+        id="name"
+        placeholder="Ingresa tu nombre"
+        type="text"
+        {...register("name")}
+      />
+      {errors.name ? <ErrorForm>{errors.name.message}</ErrorForm> : null}
+
       <FormLabel htmlFor="email">Email</FormLabel>
-      <FormInput id="email" placeholder="Ingresa un correo" type="email" />
+      <FormInput
+        id="email"
+        placeholder="Ingresa un correo"
+        type="string"
+        {...register("email")}
+      />
+      {errors.email ? (
+        <ErrorForm>{errors.email.message?.toString()}</ErrorForm>
+      ) : null}
+
       <FormLabel htmlFor="password">Contraseña</FormLabel>
+
       <FormInput
         id="password"
         placeholder="Ingresa una contraseña"
         type="password"
+        {...register("password")}
       />
+      {errors.password ? (
+        <ErrorForm>{errors.password.message}</ErrorForm>
+      ) : null}
+
       <FormLabel htmlFor="repeat_password">Repetir Contraseña</FormLabel>
       <FormInput
         id="repeat_password"
         placeholder="Minimo de 8 caracteres"
         type="password"
+        {...register("repeat_password")}
       />
+      {errors.repeat_password ? (
+        <ErrorForm>{errors.repeat_password.message}</ErrorForm>
+      ) : null}
+
       <FormSubmit value="Crear Cuenta" />
     </Form>
   );

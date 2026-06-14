@@ -5,6 +5,9 @@
 ## TECNOLOGIAS
 
 - React
+- TypeScript
+- Next App Directory
+- React Hook Form => Formularios
 
 ## ESTRUCTURA DEL PROYECTO
 

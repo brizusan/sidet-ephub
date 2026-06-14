@@ -22,7 +22,7 @@ export default function ForgotPassword() {
 
         <Link
           className="text-sm  text-slate-500 hover:text-blue-500 transition-colors"
-          href={"/auth/forgot-password"}
+          href={"/auth/create-account"}
         >
           No tienes una cuenta? Regístrate
         </Link>
