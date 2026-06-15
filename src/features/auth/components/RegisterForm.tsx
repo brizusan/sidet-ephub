@@ -1,6 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { toast } from "react-hot-toast";
 
 import {
   ErrorForm,
@@ -25,8 +26,14 @@ export default function RegisterForm() {
   });
 
   const handleRegister = async (data: RegisterInput) => {
-    await registerUser(data);
-    reset();
+    const { error, success } = await registerUser(data);
+
+    if (error) {
+      toast.error(error);
+    } else {
+      toast.success(success);
+      reset();
+    }
   };
 
   return (

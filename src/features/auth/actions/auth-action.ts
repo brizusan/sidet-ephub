@@ -14,5 +14,6 @@ export async function registerUser(data: RegisterInput) {
   }
   const validatedData = registerData.data;
 
-  await authService.registerUser(validatedData);
+  const response = await authService.registerUser(validatedData);
+  return response;
 }
