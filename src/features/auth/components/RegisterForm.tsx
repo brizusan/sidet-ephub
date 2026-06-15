@@ -9,8 +9,9 @@ import {
   FormLabel,
   FormSubmit,
 } from "@/src/shared/components/forms";
-import { LoginInput, LoginSchema } from "../schemas/authSchema";
+import { RegisterInput, RegisterSchema } from "../schemas/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { registerUser } from "../actions/auth-action";
 
 export default function RegisterForm() {
   const {
@@ -18,13 +19,13 @@ export default function RegisterForm() {
     reset,
     handleSubmit,
     formState: { errors },
-  } = useForm<LoginInput>({
-    resolver: zodResolver(LoginSchema),
+  } = useForm<RegisterInput>({
+    resolver: zodResolver(RegisterSchema),
     mode: "onBlur", // distintos modos
   });
 
-  const handleRegister = (data: LoginInput) => {
-    console.log(data);
+  const handleRegister = async (data: RegisterInput) => {
+    await registerUser(data);
     reset();
   };
 

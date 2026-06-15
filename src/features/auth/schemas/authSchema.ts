@@ -12,7 +12,7 @@ export const BaseAuhtSchema = z.object({
     .min(1, { error: "La confirmación de contraseña es requerida" }),
 });
 
-export const LoginSchema = BaseAuhtSchema.pick({
+export const RegisterSchema = BaseAuhtSchema.pick({
   name: true,
   email: true,
   password: true,
@@ -22,4 +22,4 @@ export const LoginSchema = BaseAuhtSchema.pick({
   path: ["repeat_password"],
 });
 
-export type LoginInput = z.infer<typeof LoginSchema>;
+export type RegisterInput = z.infer<typeof RegisterSchema>;
