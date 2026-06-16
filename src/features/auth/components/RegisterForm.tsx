@@ -13,6 +13,7 @@ import {
 import { RegisterInput, RegisterSchema } from "../schemas/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { registerUser } from "../actions/auth-action";
+import { useRouter } from "next/navigation";
 
 export default function RegisterForm() {
   const {
@@ -25,6 +26,8 @@ export default function RegisterForm() {
     mode: "onBlur", // distintos modos
   });
 
+  const router = useRouter();
+
   const handleRegister = async (data: RegisterInput) => {
     const { error, success } = await registerUser(data);
 
@@ -33,6 +36,7 @@ export default function RegisterForm() {
     } else {
       toast.success(success);
       reset();
+      router.replace("/auth/login");
     }
   };
 

@@ -12,6 +12,7 @@ import { LoginInput, LoginSchema } from "../schemas/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginUser } from "../actions/auth-action";
 import toast from "react-hot-toast";
+import { redirect } from "next/navigation";
 
 export default function LoginForm() {
   const {
@@ -28,6 +29,7 @@ export default function LoginForm() {
 
     if (success) {
       toast.success(success);
+      redirect("/dashboard");
     } else {
       toast.error(error);
       reset();

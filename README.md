@@ -8,10 +8,12 @@
 - TypeScript
 - Next App Directory
 - React Hook Form => Formularios
+- Autenticacion => BetterAuth
+- Email => Nodemailer , Mailtrap
 
 ## ESTRUCTURA DEL PROYECTO
 
-- Feature base Architecture (FBA) => Se estructura en la organizacion por cartacteristicas y funcinalidades de negocios
+- Feature base Architecture (FBA) => Se estructura en la organizacion por caracteristicas y funcionalidades de negocios
 
 - Ventajas
   - Escabilidad mejorada
