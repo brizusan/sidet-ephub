@@ -10,6 +10,8 @@ export const auth = betterAuth({
   }),
   emailAndPassword: {
     enabled: true,
+    // verificar
+    requireEmailVerification: true,
   },
   plugins: [nextCookies()],
 });

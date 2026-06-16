@@ -22,4 +22,10 @@ export const RegisterSchema = BaseAuhtSchema.pick({
   path: ["repeat_password"],
 });
 
+export const LoginSchema = BaseAuhtSchema.pick({
+  email: true,
+  password: true,
+});
+
 export type RegisterInput = z.infer<typeof RegisterSchema>;
+export type LoginInput = z.infer<typeof LoginSchema>;
