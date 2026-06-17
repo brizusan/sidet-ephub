@@ -1,15 +1,10 @@
-import { requireAuth } from "@/src/lib/auth-server";
 import DashboardPanel from "@/src/shared/components/dashboard/DashboardPanel";
-import { redirect } from "next/navigation";
 
 export default async function DashboardLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const { isAuth } = await requireAuth();
-
-  if (!isAuth) redirect("/");
   return (
     <>
       <div>
