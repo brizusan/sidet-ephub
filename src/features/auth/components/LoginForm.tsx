@@ -10,7 +10,7 @@ import {
 import { useForm } from "react-hook-form";
 import { LoginInput, LoginSchema } from "../schemas/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginUser } from "../actions/auth-action";
+import { LoginUserAction } from "../actions/auth-action";
 import toast from "react-hot-toast";
 import { redirect } from "next/navigation";
 
@@ -25,7 +25,7 @@ export default function LoginForm() {
   });
 
   const handleSignIn = async (data: LoginInput) => {
-    const { success, error } = await LoginUser(data);
+    const { success, error } = await LoginUserAction(data);
 
     if (success) {
       toast.success(success);

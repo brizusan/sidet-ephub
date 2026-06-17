@@ -12,7 +12,7 @@ import {
 } from "@/src/shared/components/forms";
 import { RegisterInput, RegisterSchema } from "../schemas/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { registerUser } from "../actions/auth-action";
+import { registerUserAction } from "../actions/auth-action";
 import { useRouter } from "next/navigation";
 
 export default function RegisterForm() {
@@ -29,7 +29,7 @@ export default function RegisterForm() {
   const router = useRouter();
 
   const handleRegister = async (data: RegisterInput) => {
-    const { error, success } = await registerUser(data);
+    const { error, success } = await registerUserAction(data);
 
     if (error) {
       toast.error(error);

@@ -1,14 +1,18 @@
 "use server";
 import { success } from "zod";
 import {
+  ForgotInput,
+  ForgotSchema,
   LoginInput,
   LoginSchema,
   RegisterInput,
   RegisterSchema,
+  ResePasswordInput,
+  ResetPasswordSchema,
 } from "../schemas/authSchema";
 import { authService } from "../services/AuthService";
 
-export async function registerUser(data: RegisterInput) {
+export async function registerUserAction(data: RegisterInput) {
   const registerData = RegisterSchema.safeParse(data);
 
   if (!registerData.success) {
@@ -24,7 +28,7 @@ export async function registerUser(data: RegisterInput) {
   return response;
 }
 
-export async function LoginUser(data: LoginInput) {
+export async function LoginUserAction(data: LoginInput) {
   const loginData = LoginSchema.safeParse(data);
 
   if (!loginData.success) {
@@ -36,5 +40,39 @@ export async function LoginUser(data: LoginInput) {
 
   const validateData = loginData.data;
   const response = await authService.signinUser(validateData);
+  return response;
+}
+
+export async function ForgotPasswordAction(data: ForgotInput) {
+  const forgotData = ForgotSchema.safeParse(data);
+
+  if (!forgotData) {
+    return {
+      error: "Error en loas valores de ingreso , verifica los datos",
+      success: "",
+    };
+  }
+
+  const validateData = forgotData.data;
+  const response = await authService.forgotPasswordUser(validateData!);
+  return response;
+}
+
+export async function ResetPasswordAction(
+  data: ResePasswordInput,
+  token: string,
+) {
+  const resetData = ResetPasswordSchema.safeParse(data);
+
+  if (!resetData) {
+    return {
+      error: "Error en loas valores de ingreso , verifica los datos",
+      success: "",
+    };
+  }
+
+  const validateData = resetData.data!;
+
+  const response = await authService.confirmPasswordReset(validateData, token);
   return response;
 }

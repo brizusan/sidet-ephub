@@ -1,8 +1,13 @@
 import { auth } from "@/src/lib/auth";
-import { LoginInput, RegisterInput } from "../schemas/authSchema";
+import {
+  ForgotInput,
+  LoginInput,
+  RegisterInput,
+  ResePasswordInput,
+} from "../schemas/authSchema";
 import { authRepository, IAuthRepository } from "./AuthRepository";
 import { headers } from "next/headers";
-import { APIError, success } from "better-auth";
+import { APIError } from "better-auth";
 
 class AuthService {
   constructor(private authRepository: IAuthRepository) {}
@@ -84,6 +89,57 @@ class AuthService {
         error: "",
       };
     }
+  }
+
+  async forgotPasswordUser(data: ForgotInput) {
+    const { email } = data;
+    const userExists = await this.authRepository.userExists(email);
+    if (!userExists) {
+      return {
+        success: "",
+        error: "No tenemos registrado el correo ingresado",
+      };
+    }
+
+    await auth.api.requestPasswordReset({
+      body: {
+        email,
+      },
+    });
+
+    return {
+      success: "Hemos enviado un email con instrucciones",
+      error: "",
+    };
+  }
+
+  async confirmPasswordReset(data: ResePasswordInput, token: string) {
+    const { newPassword } = data;
+    try {
+      await auth.api.resetPassword({
+        body: {
+          newPassword,
+          token,
+        },
+      });
+
+      return {
+        error: " ",
+        success: "Contraseña actualizada correctamente",
+      };
+    } catch (error) {
+      if (error instanceof APIError) {
+        return {
+          error: "Token invalido o vencido",
+          success: " ",
+        };
+      }
+    }
+
+    return {
+      error: "",
+      success: "",
+    };
   }
 }
 

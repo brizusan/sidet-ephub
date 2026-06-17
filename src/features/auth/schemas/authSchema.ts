@@ -10,6 +10,9 @@ export const BaseAuhtSchema = z.object({
   repeat_password: z
     .string()
     .min(1, { error: "La confirmación de contraseña es requerida" }),
+  newPassword: z
+    .string()
+    .min(8, "La contraseña debe tener al menos 8 caracteres"),
 });
 
 export const RegisterSchema = BaseAuhtSchema.pick({
@@ -27,5 +30,22 @@ export const LoginSchema = BaseAuhtSchema.pick({
   password: true,
 });
 
+export const ForgotSchema = BaseAuhtSchema.pick({
+  email: true,
+});
+
+export const ResetPasswordSchema = BaseAuhtSchema.pick({
+  newPassword: true,
+})
+  .extend({
+    repeat_password: z.string().min(1, "Campo obligatorio"),
+  })
+  .refine((data) => data.newPassword === data.repeat_password, {
+    error: "Las contraseñas no coinciden",
+    path: ["repeat_password"],
+  });
+
 export type RegisterInput = z.infer<typeof RegisterSchema>;
 export type LoginInput = z.infer<typeof LoginSchema>;
+export type ForgotInput = z.infer<typeof ForgotSchema>;
+export type ResePasswordInput = z.infer<typeof ResetPasswordSchema>;
