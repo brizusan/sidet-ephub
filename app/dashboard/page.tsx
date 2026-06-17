@@ -9,9 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default async function DashboardPage() {
-  const { isAuth } = await requireAuth();
-
-  if (!isAuth) redirect("/");
+  
 
   return (
     <>

@@ -16,7 +16,11 @@ CREATE TABLE "accounts" (
 --> statement-breakpoint
 CREATE TABLE "communities" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid(),
-	"name" varchar(255) NOT NULL
+	"name" varchar(255) NOT NULL,
+	"description" text NOT NULL,
+	"image" varchar(120) NOT NULL,
+	"created_at" timestamp DEFAULT now(),
+	"created_by" text NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "sessions" (

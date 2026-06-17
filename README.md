@@ -10,6 +10,7 @@
 - React Hook Form => Formularios
 - Autenticacion => BetterAuth
 - Email => Nodemailer , Mailtrap
+- Imagenes => UploadThing
 
 ## ESTRUCTURA DEL PROYECTO
 
@@ -22,3 +23,5 @@
   - Menos acoplamiento => Reduccion de dependencias
   - Excelente para manejarlo con las nuevas funcionalidades de Next.
   - Ideal para proyectos Medianos a Grandes
+
+- Patron de Diseño => Repository
