@@ -11,8 +11,11 @@ export default function UploadImage() {
     formState: { errors },
     setValue,
     clearErrors,
+    getValues,
   } = useFormContext<CommunityInput>();
   const [image, setImage] = useState("");
+
+  const currentImage = getValues("image") ? getValues("image") : null;
 
   return (
     <>
@@ -40,6 +43,17 @@ export default function UploadImage() {
           <p className="text-slate-600 italic">Imagen subida de referencia:</p>
           <Image
             src={image}
+            width={200}
+            height={200}
+            alt="Imagen subida de referencia"
+          />
+        </>
+      )}
+      {currentImage && !image && (
+        <>
+          <p className="text-slate-600 italic">Imagen Actual:</p>
+          <Image
+            src={currentImage}
             width={200}
             height={200}
             alt="Imagen subida de referencia"
