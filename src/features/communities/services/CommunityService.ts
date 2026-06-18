@@ -7,6 +7,8 @@ import { User } from "better-auth";
 import { CommunityPolicy } from "../policies/CommunityPolicy";
 import { MembershipPolicy } from "../policies/MembershipPolicy";
 import { notFound } from "next/navigation";
+import { checkPassword } from "@/src/shared/utils/auth-password";
+import { deleteUTFiles } from "@/src/lib/uploadthing-server";
 
 class CommunityService {
   constructor(private communityRepository: IcommunityRepository) {}
@@ -80,6 +82,33 @@ class CommunityService {
     }
 
     await this.communityRepository.updateCommunity(data, community.id);
+  }
+
+  async deleteCommunity(password: string, user: User, communityId: string) {
+    // Obtener comunidad
+    const community = await this.getCommunity(communityId);
+    // Revisar Permisos
+    if (!CommunityPolicy.canDelete(user, community)) {
+      throw new Error("No tienes permisos para realizar la siguiente accion");
+    }
+    // Verificar Password
+    const isValidPassword = await checkPassword(password);
+    if (!isValidPassword) {
+      return {
+        error: "Contraseña Incorrecta",
+        succes: "",
+      };
+    }
+
+    // Eliminar Comunidad
+    await this.communityRepository.delete(communityId);
+    // Eliminando imagen de uploadthing
+    await deleteUTFiles(community.imageUrl);
+
+    return {
+      error: "",
+      succes: "Comunidad Eliminada",
+    };
   }
 }
 

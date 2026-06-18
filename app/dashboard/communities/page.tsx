@@ -1,3 +1,4 @@
+import DeleteCommunityModal from "@/src/features/communities/components/DeleteCommunityModal";
 import MyCommunitites from "@/src/features/communities/components/MyCommunitites";
 import { requireAuth } from "@/src/lib/auth-server";
 import Heading from "@/src/shared/components/typography/Heading";
@@ -34,6 +35,8 @@ export default async function CommunitiesPage() {
       </div>
 
       <MyCommunitites />
+
+      <DeleteCommunityModal />
     </>
   );
 }

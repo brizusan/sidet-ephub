@@ -45,7 +45,12 @@ export const ResetPasswordSchema = BaseAuhtSchema.pick({
     path: ["repeat_password"],
   });
 
+export const CheckPasswordSchema = z.object({
+  password: z.string().min(1, { error: "El campos password es obligatorio" }),
+});
+
 export type RegisterInput = z.infer<typeof RegisterSchema>;
 export type LoginInput = z.infer<typeof LoginSchema>;
 export type ForgotInput = z.infer<typeof ForgotSchema>;
 export type ResePasswordInput = z.infer<typeof ResetPasswordSchema>;
+export type CheckPasswordInput = z.infer<typeof CheckPasswordSchema>;

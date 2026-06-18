@@ -3,7 +3,10 @@
 import { requireAuth } from "@/src/lib/auth-server";
 import { CommunityInput, CommunitySchema } from "../schemas/communitySchema";
 import { communityService } from "../services/CommunityService";
-import { success } from "zod";
+import {
+  CheckPasswordInput,
+  CheckPasswordSchema,
+} from "../../auth/schemas/authSchema";
 
 export async function createCommunityAction(data: CommunityInput) {
   const validateData = CommunitySchema.safeParse(data);
@@ -57,4 +60,37 @@ export async function updateCommunityAction(data: CommunityInput, id: string) {
     succes: "Datos Actualizados correctamente",
     error: "",
   };
+}
+
+export async function deleteCommunityAction(
+  data: CheckPasswordInput,
+  id: string,
+) {
+  const { session } = await requireAuth();
+
+  if (!session) {
+    return {
+      error: "Hubo un error",
+      succes: "",
+    };
+  }
+
+  const validateData = CheckPasswordSchema.safeParse(data);
+
+  console.log(validateData);
+
+  if (!validateData.success) {
+    return {
+      error: "Error en el envio de datos",
+      succes: "",
+    };
+  }
+
+  const response = await communityService.deleteCommunity(
+    validateData.data.password,
+    session.user,
+    id,
+  );
+
+  return response;
 }
