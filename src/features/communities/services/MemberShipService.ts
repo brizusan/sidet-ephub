@@ -9,6 +9,7 @@ import {
 } from "./CommunityRepository";
 import { notFound } from "next/navigation";
 import { MembershipPolicy } from "../policies/MembershipPolicy";
+import { CommunityPolicy } from "../policies/CommunityPolicy";
 
 class MemberShipService {
   constructor(
@@ -55,6 +56,37 @@ class MemberShipService {
         },
       };
     }
+  }
+
+  async getJoinCommunities(user: User) {
+    const res = await this.membershipRepository.findJoinedCommunities(user.id);
+
+    const enriched = await Promise.all(
+      res.map(async ({ communities }) => {
+        const isMember = true;
+        const isAdmin = CommunityPolicy.isAdmin(user, communities);
+        const membersCount = await this.membershipRepository.getMembersCount(
+          communities.id,
+        );
+
+        return {
+          data: communities,
+          membersCount,
+          context: {
+            isMember,
+            isAdmin,
+          },
+          permissions: {
+            canEdit: CommunityPolicy.canEdit(user, communities),
+            canDelete: CommunityPolicy.canEdit(user, communities),
+            canJoin: MembershipPolicy.canJoin(user, communities, isMember),
+            canLeave: MembershipPolicy.canLeave(user, communities, isMember),
+          },
+        };
+      }),
+    );
+
+    return enriched;
   }
 }
 

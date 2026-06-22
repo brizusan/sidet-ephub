@@ -1,5 +1,6 @@
-import { communities } from "@/src/db/schema";
+import { communities, communityMembers } from "@/src/db/schema";
 import { InferInsertModel, InferSelectModel } from "drizzle-orm";
+import { User } from "../../auth/types/auth.types";
 
 export type CreateCommunity = InferInsertModel<typeof communities>;
 export type SelectCommunity = InferSelectModel<typeof communities>;
@@ -18,6 +19,14 @@ export type CommunityContext = {
 
 export type CommunityWithPermisions = {
   data: SelectCommunity;
+  membersCount: number;
   context: CommunityContext;
   permissions: CommunityPermissions;
+};
+
+export type SelectCommunnityMembers = typeof communityMembers.$inferSelect;
+
+export type JoinedCommunity = SelectCommunnityMembers & {
+  communities: SelectCommunity;
+  user: User;
 };

@@ -2,6 +2,7 @@ import Image from "next/image";
 import { CommunityWithPermisions } from "../types/community.types";
 import Link from "next/link";
 import CommunityDropdownMenu from "./CommunityDropMenu";
+import { pluralize } from "@/src/shared/utils/string";
 
 type CommunityItemProps = {
   community: CommunityWithPermisions;
@@ -10,7 +11,7 @@ type CommunityItemProps = {
 export default function CommunityItem({ community }: CommunityItemProps) {
   const { name, description, imageUrl } = community.data;
   return (
-    <li className="flex justify-between gap-x-6 py-5">
+    <li className="flex justify-between gap-x-6 py-5 px-4">
       <div className="flex items-start min-w-0 gap-x-4">
         <div className="size-32 flex-none overflow-hidden">
           <Image
@@ -31,7 +32,10 @@ export default function CommunityItem({ community }: CommunityItemProps) {
             {name}
           </Link>
           <p className="text-gray-700 text-sm line-clamp-2">{description}</p>
-          <p className="text-slate-400 text-sm">{4} miembros</p>
+          <p className="text-slate-400 text-sm">
+            {community.membersCount}{" "}
+            {pluralize("subscrito", community.membersCount)}
+          </p>
         </div>
       </div>
       <div className="flex shrink-0 items-center gap-x-6">

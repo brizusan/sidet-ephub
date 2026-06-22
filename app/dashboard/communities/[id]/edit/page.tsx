@@ -33,7 +33,7 @@ export default async function EditCommunityPage(
     session!.user,
   );
 
-  if (!community.permissions.canEdit) redirect("/dashboard/communities");
+  if (!community?.permissions?.canEdit) redirect("/dashboard/communities");
 
   return (
     <>
