@@ -1,11 +1,33 @@
-import { SelectNotification } from "../types/notification.types";
+import {
+  InsertNotification,
+  SelectNotification,
+} from "../types/notification.types";
+import {
+  INotificationPublisher,
+  notificationPusher,
+} from "./NotificationPusher";
 import {
   INotificationRepository,
   notificationRepository,
 } from "./NotificationRepository";
 
-class NotificationService {
-  constructor(private notificationRepository: INotificationRepository) {}
+export interface INotificationService {
+  createAndNotify(data: InsertNotification): Promise<void>;
+  getNotificationUnreadCount(userId: string): Promise<number>;
+  getUserNotifications(userId: string): Promise<SelectNotification[]>;
+  clearNotifications(userId: string): Promise<void>;
+}
+
+class NotificationService implements INotificationService {
+  constructor(
+    private notificationRepository: INotificationRepository,
+    private notificationPusher: INotificationPublisher,
+  ) {}
+
+  async createAndNotify(data: InsertNotification) {
+    const notification = await this.notificationRepository.create(data);
+    await this.notificationPusher.notify(notification);
+  }
 
   async getNotificationUnreadCount(userId: string): Promise<number> {
     return await this.notificationRepository.getUnreadCount(userId);
@@ -16,10 +38,11 @@ class NotificationService {
   }
 
   async clearNotifications(userId: string): Promise<void> {
-    return await this.notificationRepository.delete(userId)
+    return await this.notificationRepository.delete(userId);
   }
 }
 
 export const notificationService = new NotificationService(
   notificationRepository,
+  notificationPusher,
 );

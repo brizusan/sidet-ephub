@@ -10,16 +10,17 @@ import {
 import { notFound } from "next/navigation";
 import { MembershipPolicy } from "../policies/MembershipPolicy";
 import { CommunityPolicy } from "../policies/CommunityPolicy";
+
 import {
-  INotificationRepository,
-  notificationRepository,
-} from "../../notifications/services/NotificationRepository";
+  INotificationService,
+  notificationService,
+} from "../../notifications/services/NotificationService";
 
 class MemberShipService {
   constructor(
     private membershipRepository: IMembershipRepository,
     private communityRepository: IcommunityRepository,
-    private notificationRepository: INotificationRepository,
+    private notificationService: INotificationService,
   ) {}
 
   async toogleMembership(communityId: string, user: User) {
@@ -40,7 +41,7 @@ class MemberShipService {
       await this.membershipRepository.addMember(communityId, user.id);
 
       // TODO:Generar notificacion
-      const notification = await this.notificationRepository.create({
+      await this.notificationService.createAndNotify({
         userId: community.createdBy,
         actorName: user.name,
         message: "Se unio a tu comunidad",
@@ -106,5 +107,5 @@ class MemberShipService {
 export const membershipService = new MemberShipService(
   membershipRepository,
   communityRepository,
-  notificationRepository,
+  notificationService,
 );

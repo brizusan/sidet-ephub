@@ -16,7 +16,6 @@ export interface INotificationRepository {
 class NotificationRepository implements INotificationRepository {
   async create(data: InsertNotification): Promise<SelectNotification> {
     const [res] = await db.insert(notifications).values(data).returning();
-
     return res;
   }
 
