@@ -1,10 +1,19 @@
 import { BellIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
+import { Suspense, use } from "react";
+
+const notificationPromise = fetch("/api/user/notification").then((res) =>
+  res.json(),
+);
 
 function NotificationCount() {
-  const totalNotifications = 0;
+  const totalNotifications = use(notificationPromise);
 
   return (
-    <a className="relative rounded-full p-1 text-gray-400 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500 dark:hover:text-white">
+    <Link
+      href={"/dashboard/notifications"}
+      className="relative rounded-full p-1 text-gray-400 focus:outline-2 focus:outline-offset-2 focus:outline-indigo-500 dark:hover:text-white"
+    >
       <span className="sr-only">View notifications</span>
       <BellIcon aria-hidden="true" className="size-6" />
       {totalNotifications > 0 && (
@@ -12,10 +21,16 @@ function NotificationCount() {
           {totalNotifications}
         </span>
       )}
-    </a>
+    </Link>
   );
 }
 
 export default function NotificationsPanel() {
-  return <NotificationCount />;
+  return (
+    <>
+      <Suspense fallback="loading.....">
+        <NotificationCount />
+      </Suspense>
+    </>
+  );
 }

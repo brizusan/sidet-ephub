@@ -10,11 +10,16 @@ import {
 import { notFound } from "next/navigation";
 import { MembershipPolicy } from "../policies/MembershipPolicy";
 import { CommunityPolicy } from "../policies/CommunityPolicy";
+import {
+  INotificationRepository,
+  notificationRepository,
+} from "../../notifications/services/NotificationRepository";
 
 class MemberShipService {
   constructor(
     private membershipRepository: IMembershipRepository,
     private communityRepository: IcommunityRepository,
+    private notificationRepository: INotificationRepository,
   ) {}
 
   async toogleMembership(communityId: string, user: User) {
@@ -23,16 +28,24 @@ class MemberShipService {
     const community = await this.communityRepository.findById(communityId);
 
     if (!community) notFound();
-    // ususario ya es miembro ?
+    // usario ya es miembro ?
     const isMember = await this.membershipRepository.isMember(
       community.id,
       user.id,
     );
 
+    // Usuario se puede unir
     if (MembershipPolicy.canJoin(user, community, isMember)) {
-      console.log("usuasrio se puede unir");
       // Si se le permite unirse
       await this.membershipRepository.addMember(communityId, user.id);
+
+      // TODO:Generar notificacion
+      const notification = await this.notificationRepository.create({
+        userId: community.createdBy,
+        actorName: user.name,
+        message: "Se unio a tu comunidad",
+        target: community.name,
+      });
 
       return {
         sucess: true,
@@ -44,7 +57,7 @@ class MemberShipService {
       };
     }
 
-    // usuario puede salirse
+    // Usuario puede salirse
     if (MembershipPolicy.canLeave(user, community, isMember)) {
       await this.membershipRepository.removerMember(community.id, user.id);
       return {
@@ -93,4 +106,5 @@ class MemberShipService {
 export const membershipService = new MemberShipService(
   membershipRepository,
   communityRepository,
+  notificationRepository,
 );
