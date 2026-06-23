@@ -3,7 +3,7 @@ import { InputHTMLAttributes } from "react";
 
 type FormInputProps = InputHTMLAttributes<HTMLInputElement>;
 
-export default function FormInput(props: FormInputProps) {
+export function FormInput(props: FormInputProps) {
   const { className } = props;
 
   return (

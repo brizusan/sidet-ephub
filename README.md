@@ -11,6 +11,7 @@
 - Autenticacion => BetterAuth
 - Email => Nodemailer , Mailtrap
 - Imagenes => UploadThing
+- Mapas => Leaflet
 
 ## ESTRUCTURA DEL PROYECTO
 
