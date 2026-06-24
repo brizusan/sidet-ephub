@@ -1,6 +1,8 @@
-import { FormLabel } from "@/src/shared/components/forms";
+import { ErrorForm, FormLabel } from "@/src/shared/components/forms";
 import FormSelect from "@/src/shared/components/forms/FormSelect";
 import { Suspense, use, useEffect, useState } from "react";
+import { useFormContext } from "react-hook-form";
+import { EventInput } from "../schema/eventSchema";
 
 type Community = {
   id: string;
@@ -9,6 +11,10 @@ type Community = {
 
 function CommunityOptions() {
   const [communities, setCommunities] = useState<Community[]>([]);
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<EventInput>();
   useEffect(() => {
     fetch("/api/user/communities").then((res) =>
       res.json().then(setCommunities),
@@ -19,7 +25,7 @@ function CommunityOptions() {
     <>
       <FormLabel>Communidad del Evento</FormLabel>
 
-      <FormSelect>
+      <FormSelect {...register("communityId")}>
         <option value={""}> --- Selecciona Comunidad --- </option>
         {communities.map((community) => (
           <option key={community.id} value={community.id}>
@@ -27,6 +33,10 @@ function CommunityOptions() {
           </option>
         ))}
       </FormSelect>
+
+      {errors.communityId && (
+        <ErrorForm>{errors.communityId.message}</ErrorForm>
+      )}
     </>
   );
 }

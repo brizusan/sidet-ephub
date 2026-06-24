@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useFormContext } from "react-hook-form";
 import { CommunityInput } from "@/src/features/communities/schemas/communitySchema";
 import { ErrorForm } from "../forms";
+import { EventInput } from "@/src/features/events/schema/eventSchema";
 
 export default function UploadImage() {
   const {
@@ -12,7 +13,7 @@ export default function UploadImage() {
     setValue,
     clearErrors,
     getValues,
-  } = useFormContext<CommunityInput>();
+  } = useFormContext<CommunityInput | EventInput>();
   const [image, setImage] = useState("");
 
   const currentImage = getValues("image") ? getValues("image") : null;
