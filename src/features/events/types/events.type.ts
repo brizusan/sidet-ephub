@@ -11,3 +11,7 @@ export type SelectEventLocation = typeof eventLocations.$inferSelect;
 export type InsertEvent = InsertBasicEvent & {
   location?: Omit<InsertEventLocation, "eventId" | "id">;
 };
+
+export type SelectEvent = SelectBasicEvent & {
+  location?: SelectEventLocation | null;
+};

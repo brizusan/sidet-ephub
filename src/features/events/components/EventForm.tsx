@@ -22,7 +22,6 @@ export default function EventForm() {
     watch,
     setValue,
     formState: { errors },
-    reset,
   } = useFormContext<EventInput>();
 
   const isVirtual = watch("virtual");

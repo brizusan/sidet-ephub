@@ -38,4 +38,12 @@ export const relations = defineRelations(schema, (r) => ({
       optional: false,
     }),
   },
+
+  // Relacion con Eventos
+  event: {
+    location: r.one.eventLocations({
+      from: r.event.id,
+      to: r.eventLocations.eventId,
+    }),
+  },
 }));

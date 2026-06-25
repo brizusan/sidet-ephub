@@ -30,8 +30,8 @@ export default function LocationPicker() {
     formState: { errors },
     clearErrors,
   } = useFormContext<EventInput>();
-  const lat = getValues("location.lat");
-  const lng = getValues("location.lng");
+  const lat = getValues("location.lat") ?? -12.0463236;
+  const lng = getValues("location.lng") ?? -77.0603639;
 
   const [coordinates, setCoordinates] = useState<LatLngTuple>([lat, lng]);
 
