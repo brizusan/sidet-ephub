@@ -5,7 +5,7 @@ export default function Hero() {
     <section className="flex justify-center items-center bg-hero h-150 bg-cover bg-center">
       <div className="flex flex-col justify-center items-center max-w-2xl">
         <h1 className="text-3xl lg:text-4xl text-white uppercase font-black text-center">
-          Encuentra Un Meeti o Crea una Comunidad para compartir lo que más te
+          Encuentra Un Evento o Crea una Comunidad para compartir lo que más te
           gusta
         </h1>
         <Link

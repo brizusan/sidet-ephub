@@ -1,6 +1,6 @@
 import { db } from "@/src/db";
 import { event, eventLocations } from "@/src/db/schema";
-import { InsertEvent, SelectEvent } from "../types/events.type";
+import { FullEvent, InsertEvent, SelectEvent } from "../types/events.type";
 import { format } from "date-fns";
 import { eq } from "drizzle-orm";
 
@@ -8,6 +8,7 @@ export interface IEventRepository {
   insert(data: InsertEvent): Promise<void>;
   findUpCommingByUser(userId: string): Promise<SelectEvent[]>;
   findById(id: string): Promise<SelectEvent | null>;
+  findFullById(id: string): Promise<FullEvent | null>;
   update(data: InsertEvent, eventId: string): Promise<void>;
 }
 
@@ -44,6 +45,22 @@ class EventRepository implements IEventRepository {
       },
       with: {
         location: true,
+      },
+    });
+
+    return result ?? null;
+  }
+
+  async findFullById(id: string) {
+    const result = await db.query.event.findFirst({
+      where: {
+        id,
+      },
+      with: {
+        location: true,
+        category: true,
+        communities: true,
+        admin: true,
       },
     });
 

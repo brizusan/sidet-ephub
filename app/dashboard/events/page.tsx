@@ -55,7 +55,7 @@ export default async function EventsPage() {
                   <img />
                   <div className="min-w-0 flex-auto">
                     <Link
-                      href={"/"}
+                      href={`/event/${id}`}
                       className="hover:underline font-bold text-lg"
                     >
                       {title}

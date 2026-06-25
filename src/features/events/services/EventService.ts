@@ -54,6 +54,16 @@ class EventService {
     return event;
   }
 
+  async getEventWithDetails(eventId: string, user?: User) {
+    const event = await this.eventRepository.findFullById(eventId);
+    if (!event) throw new Error("Evento no encontrado");
+
+    return {
+      data: event,
+      context: {},
+      permissions: {},
+    };
+  }
   async getEventWithPermisions(eventId: string, user: User) {
     const event = await this.getEventById(eventId);
 

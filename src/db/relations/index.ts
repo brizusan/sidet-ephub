@@ -45,5 +45,20 @@ export const relations = defineRelations(schema, (r) => ({
       from: r.event.id,
       to: r.eventLocations.eventId,
     }),
+    category: r.one.category({
+      from: r.event.categoryId,
+      to: r.category.id,
+      optional: false,
+    }),
+    communities: r.one.communities({
+      from: r.event.communityId,
+      to: r.communities.id,
+      optional: false,
+    }),
+    admin: r.one.users({
+      from: r.event.createdBy,
+      to: r.users.id,
+      optional: false,
+    }),
   },
 }));

@@ -61,7 +61,7 @@ export default function DashboardPanel() {
         {/* Sidebar component, swap this element with another sidebar if you like */}
         <div className="flex grow flex-col gap-y-5 overflow-y-auto border-r border-gray-200 bg-white px-6 dark:border-white/10 dark:bg-black/10">
           <div className="flex justify-center pt-5 w-full">
-            <div className="w-32">
+            <div className="w-48">
               <Logo />
             </div>
           </div>
